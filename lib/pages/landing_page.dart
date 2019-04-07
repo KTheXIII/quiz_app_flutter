@@ -3,9 +3,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
-import '../utils/questions.dart';
-
 import './quiz_page.dart';
+import '../utils/questions.dart';
+import './error_loading_page.dart';
 
 class LandingPage extends StatelessWidget {
   final String _url = "https://opentdb.com/api.php?amount=10&type=boolean";
@@ -40,9 +40,20 @@ class LandingPage extends StatelessWidget {
       color: Colors.greenAccent,
       child: new InkWell(
         onTap: () {
-          makeRequest().whenComplete(() => Navigator.of(context).push(
-              new MaterialPageRoute(
-                  builder: (BuildContext context) => new QuizPage(questions))));
+          makeRequest().whenComplete(() {
+            if (questions.length > 0)
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new QuizPage(questions)));
+            else
+              Navigator.of(context).pushAndRemoveUntil(
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          new ErrorLoadingPage()),
+                  (Route route) => route == null);
+          });
+
+          // Navigator.of(context).push(new MaterialPageRoute(
+          //     builder: (BuildContext context) => new QuizPage(questions)));
         },
         child: new Column(
           mainAxisAlignment: MainAxisAlignment.center,

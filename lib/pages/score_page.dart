@@ -25,6 +25,7 @@ class ScorePage extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 50.0)),
+          // new Padding(),
           new IconButton(
             icon: new Icon(Icons.arrow_right),
             color: Colors.white,
